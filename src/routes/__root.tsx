@@ -1,4 +1,3 @@
-import * as React from "react";
 import {Outlet} from "@tanstack/react-router";
 import Navbar from "../Components/common/Navbar";
 import Footer from "../Components/common/Footer";
