@@ -23,12 +23,12 @@ const rootRoute = createRootRoute({
 
 const homeRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/home",
+	path: "/",
 	component: Home,
 });
 const tableRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/",
+	path: "/table",
 	component: TableWrapper,
 });
 

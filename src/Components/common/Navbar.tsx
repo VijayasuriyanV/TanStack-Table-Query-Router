@@ -8,14 +8,14 @@ const Navbar = () => {
 			<button
 				type="button"
 				className="text-xl font-bold tracking-wide hover:text-gray-200 transition duration-200"
-				onClick={() => navigate({ to: "/" })}
+				onClick={() => navigate({ to: "/table" })}
 			>
 				👽 TabLE
 			</button>
 
 			<button
 				type="button"
-				onClick={() => navigate({ to: "/home" })}
+				onClick={() => navigate({ to: "/" })}
 				className="bg-amber-400 hover:bg-amber-500 text-black font-medium px-4 py-2 rounded-md transition duration-200"
 			>
 				Home

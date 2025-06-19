@@ -7,7 +7,9 @@
 		"dev": "vite",
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"format": "npx @biomejs/biome format --write",
+		"biome-lint": "npx @biomejs/biome lint ./src"
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.1.8",

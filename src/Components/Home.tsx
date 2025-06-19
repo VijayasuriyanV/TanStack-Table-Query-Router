@@ -18,7 +18,7 @@ const Home = () => {
 				</p>
 				<div className="mt-6">
 					<a
-						href="/"
+						href="/table"
 						className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition duration-200"
 					>
 						Go to Table

@@ -6,10 +6,12 @@ import {
 	getCoreRowModel,
 	getSortedRowModel,
 	getPaginationRowModel,
+	getFilteredRowModel,
 	flexRender,
 	createColumnHelper,
 	type SortingState,
 } from "@tanstack/react-table";
+
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchUsers, deleteUser, updateUser, createUser } from "../api/users";
 import type { User } from "./types/table.types";
@@ -19,9 +21,9 @@ import UserForm from "./UserForm";
 const columnHelper = createColumnHelper<User>();
 
 const UserTable = () => {
-	// throw new Error("TabLE");
 	const queryClient = useQueryClient();
 	const [sorting, setSorting] = useState<SortingState>([]);
+	const [globalFilter, setGlobalFilter] = useState("");
 	const [editingUser, setEditingUser] = useState<User | null>(null);
 	const [showForm, setShowForm] = useState(false);
 	const [formData, setFormData] = useState<Omit<User, "id">>({
@@ -65,7 +67,7 @@ const UserTable = () => {
 		setEditingUser(user);
 		setFormData({ name: user.name, email: user.email, role: user.role });
 		setShowForm(true);
-	}, []); // no dependencies – stable reference
+	}, []);
 
 	const cancelEdit = () => {
 		setEditingUser(null);
@@ -123,24 +125,29 @@ const UserTable = () => {
 				),
 			},
 		],
-		[deleteMutation.mutate, handleEdit],
+		[deleteMutation, handleEdit],
 	);
 
 	const table = useReactTable({
 		data: users,
 		columns,
-		state: { sorting },
+		state: {
+			sorting,
+			globalFilter,
+		},
 		onSortingChange: setSorting,
+		onGlobalFilterChange: setGlobalFilter,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
+		getFilteredRowModel: getFilteredRowModel(),
 	});
 
 	return (
 		<div className="p-4">
 			<h2 className="text-xl font-bold mb-4 text-center">Users Table</h2>
 
-			<div className="mb-4 flex justify-end">
+			<div className="mb-4 flex flex-col sm:flex-row justify-between gap-2">
 				<button
 					type="button"
 					onClick={() => {
@@ -151,6 +158,14 @@ const UserTable = () => {
 				>
 					+ Add User
 				</button>
+
+				<input
+					type="text"
+					placeholder="Search by any field..."
+					value={globalFilter ?? ""}
+					onChange={(e) => setGlobalFilter(e.target.value)}
+					className="border px-3 py-1 rounded w-full sm:w-64"
+				/>
 			</div>
 
 			{showForm && (
