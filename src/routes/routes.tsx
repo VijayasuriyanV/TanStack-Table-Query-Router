@@ -1,29 +1,39 @@
 import {
-  createRootRoute,
-  createRoute,
-  createRouter,
-  lazyRouteComponent,
+	createRootRoute,
+	createRoute,
+	createRouter,
+	lazyRouteComponent,
 } from "@tanstack/react-router";
-import {RootComponent} from "./__root";
-import Table from "../Components/UserTable";
+import { RootComponent } from "./__root";
+import ErrorBoundary from "../ErrorBoundary";
+import TableWrapper from "../Components/TableWrapper";
 const Home = lazyRouteComponent(() => import("../Components/Home"));
 const rootRoute = createRootRoute({
-  component: RootComponent,
+	component: () => (
+		<ErrorBoundary>
+			<RootComponent />
+		</ErrorBoundary>
+	),
 });
 
+// const rootRoute = createRootRoute({
+//   component: RootComponent,
+//   errorComponent: ({children}) => <ErrorBoundary>{children}</ErrorBoundary>,
+// });
+
 const homeRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/home",
-  component: Home,
+	getParentRoute: () => rootRoute,
+	path: "/home",
+	component: Home,
 });
 const tableRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/",
-  component: Table,
+	getParentRoute: () => rootRoute,
+	path: "/",
+	component: TableWrapper,
 });
 
 const routeTree = rootRoute.addChildren([homeRoute, tableRoute]);
 export const router = createRouter({
-  routeTree,
-  defaultPreload: "intent",
+	routeTree,
+	defaultPreload: "intent",
 });
